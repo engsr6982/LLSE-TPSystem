@@ -1,0 +1,69 @@
+{
+	"Command": {
+		"name": "tps",
+		"Describe": "传送系统"
+	},
+	"Money": {
+		"Enable": true,
+		"MoneyType": "llmoney",
+		"ScoreType": "money",
+		"MoneyName": "金币"
+	},
+	"Home": {
+		"Enable": true,
+		"CreateHome": 0,
+		"GoHome": 0,
+		"EditHome_Name": 0,
+		"EditHome_Pos": 0,
+		"DeleteHome": 0,
+		"MaxHome": 10
+	},
+	"Warp": {
+		"Enable": true,
+		"GoWarp": 0
+	},
+	"TPA": {
+		"Enable": true,
+		"Player_Player": 0,
+		"CacheExpirationTime": 300000
+	},
+	"Death": {
+		"Enable": true,
+		"GoDelath": 0,
+		"sendBackGUI": true,
+		"InvincibleTime": 30,
+		"InvincibleTimeUnit": "second",
+		"MaxDeathInfo": 1,
+		"QueryDeath": true
+	},
+	"TPR": {
+		"Enable": true,
+		"Min": 1000,
+		"Max": 5000,
+		"Money": 1,
+		"MainWorld": true,
+		"Infernal": true,
+		"Terminus": true,
+		"restrictedArea": {
+			"Enable": true,
+			"Type": "Circle",
+			"Pos": {
+				"x": 0,
+				"z": 0,
+				"radius": 100
+			}
+		}
+	},
+	"MergeRequest": {
+		"Enable": true,
+		"sendRequest": 0,
+		"DeleteRequest": 0
+	},
+	"PlayerSeting": {
+		"AcceptTransmission": true,
+		"SecondaryConfirmation": true,
+		"SendRequestPopup": true,
+		"DeathPopup": true
+	},
+	"AutoCompleteAttributes": true
+}

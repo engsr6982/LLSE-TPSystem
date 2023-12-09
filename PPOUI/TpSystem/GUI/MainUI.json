@@ -1,0 +1,38 @@
+[
+	{
+		"name": "家园传送",
+		"image": "textures/ui/village_hero_effect",
+		"type": "command",
+		"open": "tps gui home"
+	},
+	{
+		"name": "公共传送",
+		"image": "textures/ui/icon_best3",
+		"type": "command",
+		"open": "tps gui warp"
+	},
+	{
+		"name": "玩家传送",
+		"image": "textures/ui/icon_multiplayer",
+		"type": "command",
+		"open": "tps gui tpa"
+	},
+	{
+		"name": "死亡传送",
+		"image": "textures/ui/friend_glyph_desaturated",
+		"type": "command",
+		"open": "tps gui death"
+	},
+	{
+		"name": "随机传送",
+		"image": "textures/ui/mashup_world",
+		"type": "command",
+		"open": "tps gui tpr"
+	},
+	{
+		"name": "个人设置",
+		"image": "textures/ui/icon_setting",
+		"type": "command",
+		"open": "tps gui setting"
+	}
+]

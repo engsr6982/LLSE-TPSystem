@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>JSON格式转换</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-group {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            flex-basis: 500px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            color: #333;
+        }
+
+        .form-group input[type="file"] {
+            display: none;
+        }
+
+        .form-group select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #f5f5f5;
+            margin-bottom: 5px;
+            color: #333;
+            width: 85%;
+        }
+
+        .form-group button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #3e8e41;
+        }
+
+        .form-group textarea {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #f5f5f5;
+            width: 100%;
+            height: 300px;
+            resize: none;
+            color: #333;
+        }
+
+        .form-group .download-link {
+            display: none;
+            margin-top: 10px;
+            color: #4caf50;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .form-group .download-link:hover {
+            color: #3e8e41;
+        }
+
+        /* 响应式样式 */
+        @media screen and (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-group {
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>JSON格式转换</h1>
+    <div class="container">
+        <div class="form-group">
+            <label for="input-json">输入JSON:</label>
+            <textarea id="input-json" placeholder="在此处输入或粘贴JSON格式的文本"></textarea>
+            <button id="open-file-btn">打开</button>
+            <input type="file" id="file-input" accept=".json">
+        </div>
+        <div class="form-group">
+            <label for="convert-to">转换为:</label>
+            <select id="convert-to">
+                <option value="pretty">正常格式</option>
+                <option value="minified">压缩格式</option>
+                <option value="TMET_Home_TpSystem_Home">TMET Home → TpSystem Home</option>
+                <option value="TMET_Warp_TpSystem_Warp">TMET Warp → TpSystem Warp</option>
+                <option value="TpSystem_Home_TMET_Home">TMET Home ← TpSystem Home</option>
+                <option value="TpSystem_Warp_TMET_Warp">TMET Warp ← TpSystem Warp</option>
+            </select>
+            <button id="convert-btn">转换</button>
+        </div>
+        <div class="form-group">
+            <label for="output-json">输出JSON:</label>
+            <textarea id="output-json" placeholder="转换后的JSON格式将显示在此处"></textarea>
+            <a href="#" download="output.json" id="download-link" class="download-link">下载</a>
+        </div>
+    </div>
+    <script>
+        /**输入JSON-输入框 */
+        const inputJsonEl = document.querySelector('#input-json');// 获取DOM元素
+        /**打开按钮 */
+        const openFileBtnEl = document.querySelector('#open-file-btn');
+        /**文件输入 */
+        const fileInputEl = document.querySelector('#file-input');
+        /**转换为-下拉框 */
+        const convertToEl = document.querySelector('#convert-to');
+        /**转换按钮 */
+        const convertBtnEl = document.querySelector('#convert-btn');
+        /**输出JSON-输出框 */
+        const outputJsonEl = document.querySelector('#output-json');
+        /**下载链接 */
+        const downloadLinkEl = document.querySelector('#download-link');
+
+        // 打开文件按钮点击事件
+        openFileBtnEl.addEventListener('click', () => {
+            fileInputEl.click();
+        });
+
+        // 文件选择事件
+        fileInputEl.addEventListener('change', () => {
+            const file = fileInputEl.files[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+                inputJsonEl.value = reader.result;
+            };
+            reader.readAsText(file);
+        });
+
+        // 转换按钮点击事件
+        convertBtnEl.addEventListener('click', () => {
+            let inputJson; let outputJson;
+            try {
+                inputJson = JSON.parse(inputJsonEl.value);
+            } catch (e) {
+                return window.alert(e);
+            }
+            outputJson = Conversion_Core(convertToEl.value, inputJson);
+            outputJsonEl.value = outputJson;
+            Download_Link(outputJson);
+        });
+
+        /**
+         * 下载链接
+         * @param {JSON} json 待下载的json
+         */
+        function Download_Link(json) {
+            downloadLinkEl.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(json);
+            downloadLinkEl.download = `output-${RandomID()}.json`;
+            downloadLinkEl.style.display = 'block';
+        }
+
+        /**
+         * 8位随机ID
+         * @returns 
+         */
+        function RandomID() {
+            let str = '';
+            const char = 'abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM';
+            for (let i = 0; i < 8; i++) {
+                let index = Math.floor(Math.random() * char.length);
+                str += char[index];
+            }
+            return str;
+        }
+
+        /**
+         * 转换核心
+         * @param {String} vaule 类别 HTML下拉框
+         * @param {JSON} inputJson 输入JSON
+         * @returns JSON
+         */
+        function Conversion_Core(vaule, inputJson) {
+            switch (vaule) {
+                case 'pretty':
+                    return JSON.stringify(inputJson, null, '\t');
+                case 'minified':
+                    return JSON.stringify(inputJson);
+                case 'TMET_Home_TpSystem_Home':
+                    return TMET_Home_TpSystem_Home(inputJson);
+                case 'TMET_Warp_TpSystem_Warp':
+                    return TMET_Warp_TpSystem_Warp(inputJson);
+                case 'TpSystem_Home_TMET_Home':
+                    return TpSystem_Home_TMET_Home(inputJson)
+                case 'TpSystem_Warp_TMET_Warp':
+                    return TpSystem_Warp_TMET_Warp(inputJson);
+                default:
+                    return JSON.stringify(inputJson);
+            }
+        }
+
+        function TMET_Home_TpSystem_Home(inputJson) {
+            const format2 = {};
+            for (const [username, locations] of Object.entries(inputJson)) {
+                const newLocations = [];
+                for (const [name, coords] of Object.entries(locations)) {
+                    newLocations.push({
+                        "name": name,
+                        "x": coords.x,
+                        "y": coords.y,
+                        "z": coords.z,
+                        "dimid": coords.dimid
+                    });
+                }
+                format2[username] = newLocations;
+            }
+            return JSON.stringify(format2, null, '\t');
+        }
+
+        function TMET_Warp_TpSystem_Warp(inputJson) {
+            const format2 = [];
+            Object.keys(inputJson).forEach(name => {
+                const { x, y, z, dimid } = inputJson[name];
+                format2.push({ name, x, y, z, dimid });
+            });
+            return JSON.stringify(format2, null, '\t');
+        }
+
+        function TpSystem_Warp_TMET_Warp(inputJson) {
+            const format1 = {};
+            inputJson.forEach(({ name, x, y, z, dimid }) => {
+                format1[name] = { x, y, z, dimid };
+            });
+            return JSON.stringify(format1, null, '\t');
+        }
+
+        function TpSystem_Home_TMET_Home(inputJson) {
+            const format1 = {};
+            Object.keys(inputJson).forEach(player => {
+                format1[player] = {};
+                inputJson[player].forEach(({ name, x, y, z, dimid }) => {
+                    format1[player][name] = { x, y, z, dimid };
+                });
+            });
+            return JSON.stringify(format1, null, '\t');
+        }
+    </script>
+</body>
+
+</html>
