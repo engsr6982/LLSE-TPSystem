@@ -7,5 +7,6 @@
   ],
   "compilerOptions": {
     "outDir": "./build",
+    "noImplicitAny": true // 禁止隐式Any
   }
 }
