@@ -12,3 +12,7 @@ export const formatPrintingError = (err: Error) => {
     logger.error(`Stack information: ${err.stack}`);
     logger.warn(`If you encounter a persistent throwing error, please reload this plug-in`);
 };
+
+export const hasOwnProperty = (obj: object, key: string): boolean => {
+    return Object.prototype.hasOwnProperty.call(obj, key);
+};

@@ -82,5 +82,6 @@ export class dataFile {
     static initData() {
         config = JSON.parse(this.readFile(`${pluginFloder.global}Config.json`, JSON.stringify(__init.config)));
         formJSON = JSON.parse(this.readFile(`${pluginFloder.data}formJSON.json`, JSON.stringify(__init.formJson)));
+        return true;
     }
 }
