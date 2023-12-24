@@ -1,5 +1,5 @@
-export function commandCallback(_: Command, ori: CommandOrigin, out: CommandOutput, result: any) {
+export function commandCallback(_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) {
     logger.info(JSON.stringify(result, null, 2));
-    switch (result) {
+    switch (result.action) {
     }
 }
