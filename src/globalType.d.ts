@@ -27,3 +27,11 @@ interface ConfigType {
         CacheExpirationTime: 0;
     };
 }
+
+interface Vec3 {
+    x: number;
+    y: number;
+    z: number;
+    /** 主世界|地狱|末地 */
+    dimid: 0 | 1 | 2;
+}

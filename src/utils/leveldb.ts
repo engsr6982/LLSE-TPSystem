@@ -1,61 +1,50 @@
 import { pluginFloder } from "./globalVars.js";
 
-export const leveldb = new KVDatabase(pluginFloder.leveldb);
+const leveldb_Inst = new KVDatabase(pluginFloder.leveldb);
 
-export class leveldbOperation {}
+export class leveldb {
+    // home
+    static getHome(): home_Structure {
+        return leveldb_Inst.get("home");
+    }
+    static setHome(newData: home_Structure): boolean {
+        return leveldb_Inst.set("home", newData);
+    }
 
-// leveldb data structure
+    // warp
+    static getWarp(): warp_Structure {
+        return leveldb_Inst.get("warp");
+    }
+    static setWarp(newData: warp_Structure): boolean {
+        return leveldb_Inst.set("warp", newData);
+    }
 
-interface Vec3 {
-    x: number;
-    y: number;
-    z: number;
-    /** 主世界|地狱|末地 */
-    dimid: 0 | 1 | 2;
-}
+    // death
+    static getDeath(): death_Structure {
+        return leveldb_Inst.get("death");
+    }
+    static setDeath(newData: death_Structure): boolean {
+        return leveldb_Inst.set("death", newData);
+    }
 
-interface dataDate {
-    /** 创建日期 */
-    createdTime: string;
-    /** 修改日期 */
-    modifiedTime: string;
-}
+    // pr
+    static getPr(): pr_Structure {
+        return leveldb_Inst.get("pr");
+    }
+    static setPr(newData: pr_Structure): boolean {
+        return leveldb_Inst.set("pr", newData);
+    }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-interface leveldb_Data_Structure {
-    home: {
-        [xuid: string]: {
-            [home_name: string]: Vec3 & dataDate;
-        };
-    };
-    warp: {
-        [warp_name: string]: Vec3 &
-            dataDate & {
-                /** 来源 */
-                source: string;
-            };
-    };
-    death: {
-        [xuid: string]: [
-            Vec3 & {
-                time: string;
-            },
-        ];
-    };
-    mergerequest: {
-        [guid: string]: {
-            player: string; // 玩家真名
-            xuid: string; // 玩家xuid
-            time: string; // 创建时间
-            data: Vec3 & {
-                // 家数据
-                name: string;
-            };
-        };
-    };
-    playersettings: {
-        [xuid: string]: {
-            [rule: string]: any;
-        };
-    };
+    // rule
+    static getRule(): rule_Structure {
+        return leveldb_Inst.get("rule");
+    }
+    static setRule(newData: rule_Structure): boolean {
+        return leveldb_Inst.set("rule", newData);
+    }
+
+    // other
+    static getLevelDB() {
+        return leveldb_Inst;
+    }
 }
