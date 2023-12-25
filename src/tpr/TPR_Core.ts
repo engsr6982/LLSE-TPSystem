@@ -71,7 +71,7 @@ export function TPR_Core(player: Player) {
                 player.tell(`寻找安全坐标...`);
                 player.addEffect(11, 80, 255, true);
 
-                let to_Pos;
+                let to_Pos: IntPos;
                 let Pos_Y = forPosInfo.startPos;
                 // 遍历方块对象
                 for (Pos_Y; Pos_Y > forPosInfo.forEnd; Pos_Y--) {
