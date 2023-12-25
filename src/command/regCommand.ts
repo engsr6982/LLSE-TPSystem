@@ -4,7 +4,7 @@ import { commandCallback } from "./Callback.js";
 
 export function regCommand(): boolean {
     try {
-        const cmd = mc.newCommand(config.command.command, config.command.describe, PermType.Any);
+        const cmd = mc.newCommand(config.Command.Command, config.Command.Describe, PermType.Any);
 
         // ======================================================================== 全局
 

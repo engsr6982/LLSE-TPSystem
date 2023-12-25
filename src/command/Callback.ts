@@ -1,4 +1,5 @@
 import { TPAEntrance } from "../tpa/form/TPAEntrance.js";
+import { TPRForm } from "../tpr/TPRForm.js";
 import { dataFile } from "../utils/data.js";
 import { hasOwnProperty_ } from "../utils/util.js";
 
@@ -69,6 +70,7 @@ export function commandCallback(_: Command, ori: CommandOrigin, out: CommandOutp
         case "back":
             break;
         case "tpr":
+            TPRForm(ori.player);
             break;
         case "menu":
             break;

@@ -80,7 +80,7 @@ export class TPARequest {
             }
         }
         //扣钱
-        money_.deductPlayerMoney(this.sender, config.tpa.money);
+        money_.deductPlayerMoney(this.sender, config.Tpa.Money);
         this.sender.tell(this.reciever.name + "接受了您的" + this.type + "请求");
     }
 
@@ -102,7 +102,7 @@ export class TPARequest {
         if (this.reciever == null) {
             return Available.RecieverOffline;
         }
-        if (money_.getPlayeyMoney(this.sender) < config.tpa.money && config.tpa.money != 0) {
+        if (money_.getPlayeyMoney(this.sender) < config.Tpa.Money && config.Tpa.Money != 0) {
             return Available.Unaffordable;
         }
         return Available.Available;

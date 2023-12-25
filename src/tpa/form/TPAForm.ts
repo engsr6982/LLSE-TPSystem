@@ -20,7 +20,7 @@ export class TPAForm extends SimpleFormWithPlayer {
         //点击按钮后，程序将立即创建一个tpa请求
         for (const i in online.real) {
             super.addButton(online.real[i].name, () => {
-                newRequest = new TPARequest(player, online.real[i], type, config.tpa.CacheExpirationTime);
+                newRequest = new TPARequest(player, online.real[i], type, config.Tpa.CacheExpirationTime);
                 //发送请求，存储请求结果并向玩家发送
                 const askResult = newRequest.ask();
                 if (askResult != Available.Available) {

@@ -33,3 +33,5 @@ export enum pluginFloder {
     "import_" = global + "import\\",
     "export_" = global + "export\\",
 }
+
+export const tellTitle = `§e§l[§d${pluginInformation.name}§e]§r§a `;
