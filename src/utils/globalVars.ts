@@ -11,20 +11,6 @@ export const pluginInformation = {
     mineBBS: "https://www.minebbs.com/resources/tpsystem-gui-gui.5755/",
 };
 
-// plugin
-//  - leveldb
-//      any...
-//  - data
-//      ui.json
-//      perm.json
-//  - import
-//      any...
-//  - export
-//      any...
-//  - build
-//      any...
-//  config.json
-
 export enum pluginFloder {
     /** 根路径 */
     "global" = ".\\plugins\\PPOUI\\LLSE-TPSystem\\",
@@ -35,3 +21,5 @@ export enum pluginFloder {
 }
 
 export const tellTitle = `§e§l[§d${pluginInformation.name}§e]§r§a `;
+
+export const dimArray = ["主世界", "地狱", "末地"];
