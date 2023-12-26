@@ -1,5 +1,5 @@
 import { config } from "../utils/data.js";
-import { formatPrintingError, money_ } from "../utils/util.js";
+import { formatPrintingError, money_, sendMessageToPlayer } from "../utils/util.js";
 import { RandomCoordinates } from "./randomCoordinates.js";
 
 /**
@@ -23,14 +23,14 @@ export function TPR_Core(player: Player) {
     let BackUpPos: IntPos = null;
     try {
         if (!CheckWorld(player)) {
-            player.tell(`随机传送在当前维度不可用！`);
+            sendMessageToPlayer(player, "随机传送在当前维度不可用！");
             return;
         }
 
         if (!money_.deductPlayerMoney(player, config.Tpr.Money)) return;
 
         // 开始准备传送所需参数
-        player.tell(`准备传送...`);
+        sendMessageToPlayer(player, "准备传送...");
         const InitialY_Axis = 500;
         const randomCoordinateObject = RandomCoordinates(); // 获取随机坐标
         const InitialTargetCoordinates = new IntPos(randomCoordinateObject.x, InitialY_Axis, randomCoordinateObject.z, player.pos.dimid);
@@ -53,7 +53,7 @@ export function TPR_Core(player: Player) {
         }
 
         player.teleport(InitialTargetCoordinates);
-        player.tell(`等待区块加载...`);
+        sendMessageToPlayer(player, "等待区块加载...");
 
         Interval_ID = setInterval(() => {
             try {
@@ -68,7 +68,7 @@ export function TPR_Core(player: Player) {
 
         function _run() {
             try {
-                player.tell(`寻找安全坐标...`);
+                sendMessageToPlayer(player, "寻找安全坐标...");
                 player.addEffect(11, 80, 255, true);
 
                 let to_Pos: IntPos;
@@ -112,7 +112,7 @@ export function TPR_Core(player: Player) {
             player.teleport(
                 new FloatPos(InitialTargetCoordinates.x + 0.5, YY + 2, InitialTargetCoordinates.z + 0.5, InitialTargetCoordinates.dimid),
             );
-            player.tell(`传送完成！`);
+            sendMessageToPlayer(player, "传送完成！");
             logger.debug(`Y轴: ${YY}  方块对象: ${block_Obj.pos}  坐标对象: ${InitialTargetCoordinates}  玩家坐标: ${player.blockPos}`);
         }
     } catch (e) {
@@ -132,7 +132,7 @@ export function TPR_Core(player: Player) {
         if (player.pos != null) {
             formatPrintingError(e);
             player.teleport(BackUpPos);
-            player.tell(`§c插件遇到未知错误, 传送失败！`);
+            sendMessageToPlayer(player, "§c插件遇到未知错误, 传送失败！");
             money_.addPlayerMoney(player, config.Tpr.Money);
         } else {
             logger.warn("Players quit the game and TPR failed.");

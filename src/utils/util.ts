@@ -21,3 +21,7 @@ export const hasOwnProperty_ = (obj: object, key: string): boolean => {
 export const sendCloseFormTip = (player: Player) => {
     return player.tell(`${tellTitle}表单已放弃`);
 };
+
+export const sendMessageToPlayer = (player: Player, msg: string): boolean => {
+    return player.tell(tellTitle + msg);
+};
