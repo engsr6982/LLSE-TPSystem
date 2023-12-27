@@ -3,7 +3,7 @@ import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, money_, sendMessag
 import { time } from "../../../LLSE-Modules/src/Time.js";
 import { config } from "../utils/data.js";
 
-class homeCore {
+class HomeCore {
     constructor() {}
 
     // 以下方法仅限管理Gui调用
@@ -105,4 +105,4 @@ class homeCore {
     }
 }
 
-export const homeInst = new homeCore();
+export const home = new HomeCore();

@@ -1,5 +1,5 @@
 import { formMap } from "../formMap.js";
-import { homeInst } from "../home/homeCore.js";
+import { home } from "../home/core.js";
 import { TPAEntrance } from "../tpa/form/TPAEntrance.js";
 import { TPRForm } from "../tpr/TPRForm.js";
 import { dataFile, formJSON } from "../utils/data.js";
@@ -57,18 +57,18 @@ const call: {
         const { player } = ori;
         switch (result.home) {
             case "list":
-                const list = homeInst.getHomeListStringArray(player.realName);
+                const list = home.getHomeListStringArray(player.realName);
                 if (list === null) return out.error(`你还没有家园传送点!`);
                 out.success(`${tellTitle}家园: ${list}`);
                 break;
             case "go":
-                homeInst.goHome(player, result.name);
+                home.goHome(player, result.name);
                 break;
             case "add":
-                homeInst.creatHome(player, result.name);
+                home.creatHome(player, result.name);
                 break;
             case "del":
-                homeInst.deleteHome(player, result.name);
+                home.deleteHome(player, result.name);
                 break;
         }
     },
