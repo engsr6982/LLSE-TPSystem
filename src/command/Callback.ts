@@ -2,6 +2,7 @@ import { homeInst } from "../home/homeCore.js";
 import { TPAEntrance } from "../tpa/form/TPAEntrance.js";
 import { TPRForm } from "../tpr/TPRForm.js";
 import { dataFile } from "../utils/data.js";
+import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
 import { hasOwnProperty_ } from "../utils/util.js";
 
@@ -57,10 +58,7 @@ const call: {
             case "list":
                 const list = homeInst.getHomeListStringArray(player.realName);
                 if (list === null) return out.error(`你还没有家园传送点!`);
-                list.forEach((i) => {
-                    out.success(i);
-                });
-                out.success(`共计: ${list.length}`);
+                out.success(`${tellTitle}家园: ${list}`);
                 break;
             case "go":
                 homeInst.goHome(player, result.name);

@@ -45,9 +45,13 @@ export const isFloat = (n: number): boolean => {
 };
 
 export const convertPosToVec3 = (pos: IntPos | FloatPos): Vec3 => {
-    const t = JSON.parse(JSON.stringify(pos));
-    delete t["dim"];
-    return t;
+    const { x, y, z, dimid } = pos;
+    return {
+        x: x,
+        y: y,
+        z: z,
+        dimid: dimid,
+    };
 };
 
 export const convertVec3ToPos = (vec3: Vec3) => {

@@ -1,5 +1,5 @@
 import { leveldb } from "../utils/leveldb.js";
-import { convertPosToVec3, convertVec3ToPos, formatVec3ToString, hasOwnProperty_, money_, sendMessageToPlayer } from "../utils/util.js";
+import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, money_, sendMessageToPlayer } from "../utils/util.js";
 import { time } from "../../../LLSE-Modules/src/Time.js";
 import { config } from "../utils/data.js";
 
@@ -9,6 +9,7 @@ class homeCore {
     // 以下方法仅限管理Gui调用
 
     private addHome_(realName: string, name: string, vec3: Vec3): boolean {
+        logger.warn(vec3);
         const home = leveldb.getHome();
         if (!hasOwnProperty_(home, realName)) {
             // 初始化数据
@@ -30,7 +31,7 @@ class homeCore {
     private deleteHome_(realName: string, name: string): boolean {
         const home = leveldb.getHome();
         if (!hasOwnProperty_(home, realName)) return false; // no home
-        delete home[name];
+        delete home[realName][name];
         return leveldb.setHome(home);
     }
 
@@ -97,16 +98,10 @@ class homeCore {
         return this.deleteHome_(player.realName, name);
     }
 
-    getHomeListStringArray(realName: string): Array<string> {
-        const r: Array<string> = [];
+    getHomeListStringArray(realName: string): string {
         const h = leveldb.getHome();
         if (!hasOwnProperty_(h, realName)) return null;
-        const homeKey = Object.keys(h[realName]);
-        if (homeKey.length === 0) return null;
-        homeKey.forEach((i) => {
-            r.push(`名称: ${i} | ${formatVec3ToString(h[realName][i])}`);
-        });
-        return r;
+        return Object.keys(h[realName]).join(" | ");
     }
 }
 

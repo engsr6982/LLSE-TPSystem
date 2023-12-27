@@ -71,8 +71,16 @@ export class leveldb {
                 return false;
             }
             const obj = JSON.parse(file.readFrom(filePath));
+            const k = Object.keys(obj); // 获取key
+
+            logger.warn("为了操作安全，备份数据库...");
+            this.exportLevelDB(); // 备份一下
+
+            k.forEach((i) => {
+                leveldb_Inst.set(i, obj[i]); // 遍历key 写入数据库
+            });
+            return true;
         }
-        return true;
     }
 
     static exportLevelDB(): boolean {
@@ -81,7 +89,7 @@ export class leveldb {
         key.forEach((i) => {
             cache[i] = leveldb_Inst.get(i);
         });
-        const filePath = pluginFloder.export_ + `${time.formatDateToString(new Date()).replace(/:/g, "-")}.json`;
+        const filePath = pluginFloder.export_ + `${time.formatDateToString(new Date()).replace(/:/g, "-")}.bak`;
         file.writeTo(filePath, JSON.stringify(cache, null, 2));
         logger.info(`输出文件到：${filePath}`);
         return true;

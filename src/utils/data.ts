@@ -43,8 +43,8 @@ const __config__: ConfigType = {
     Tpr: {
         Enable: true,
         randomRange: {
-            min: 0,
-            max: 0,
+            min: 100,
+            max: 1000,
         },
         Dimension: {
             Overworld: true,
