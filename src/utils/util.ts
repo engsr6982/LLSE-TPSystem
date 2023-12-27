@@ -9,8 +9,7 @@ export const initMoneyModule = () => {
 };
 
 export const formatPrintingError = (err: Error) => {
-    logger.error(`The plugin captures an error: \n${err}`);
-    logger.error(`${err.stack}`);
+    logger.error(`The plugin captures an error: \n${err}\n${err.stack}`);
     logger.warn(`If you encounter a persistent throwing error, please reload this plugin`);
 };
 

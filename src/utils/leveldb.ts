@@ -47,4 +47,15 @@ export class leveldb {
     static getLevelDB() {
         return leveldb_Inst;
     }
+
+    static initLevelDB() {
+        const leveldbKey = ["home", "warp", "death", "pr", "rule"];
+        leveldbKey.forEach((k) => {
+            if (leveldb_Inst.get(k) == null) {
+                leveldb_Inst.set(k, {});
+                logger.warn(`初始化<${k}>成功！`);
+            }
+        });
+        return true;
+    }
 }

@@ -1,7 +1,12 @@
+import { homeInst } from "../home/homeCore.js";
 import { TPAEntrance } from "../tpa/form/TPAEntrance.js";
 import { TPRForm } from "../tpr/TPRForm.js";
 import { dataFile } from "../utils/data.js";
 import { hasOwnProperty_ } from "../utils/util.js";
+
+const sendPlayersUse = (out: CommandOutput) => {
+    return out.error("此功能仅限玩家使用!");
+};
 
 const call: {
     // eslint-disable-next-line no-unused-vars
@@ -15,15 +20,28 @@ const call: {
             case "del":
         }
     },
-    home: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
+    // eslint-disable-next-line prettier/prettier
+    "home": (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
+        if (!ori.player) return sendPlayersUse(out);
+        const { player } = ori;
         switch (result.home) {
             case "list":
+                const list = homeInst.getHomeListStringArray(player.xuid);
+                log(list);
+                if (list === null) return out.error(`你还没有家园传送点!`);
+                list.forEach((i) => {
+                    out.success(i);
+                });
+                out.success(`共计: ${list.length}`);
                 break;
             case "go":
+                homeInst.goHome(player, result.name);
                 break;
             case "add":
+                homeInst.creatHome(player, result.name);
                 break;
             case "del":
+                homeInst.deleteHome(player, result.name);
                 break;
         }
     },

@@ -1,5 +1,5 @@
 import { leveldb } from "../utils/leveldb.js";
-import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, money_, sendMessageToPlayer } from "../utils/util.js";
+import { convertPosToVec3, convertVec3ToPos, formatVec3ToString, hasOwnProperty_, money_, sendMessageToPlayer } from "../utils/util.js";
 import { time } from "../../../LLSE-Modules/src/Time.js";
 import { config } from "../utils/data.js";
 
@@ -95,6 +95,18 @@ class homeCore {
     deleteHome(player: Player, name: string) {
         if (!money_.deductPlayerMoney(player, config.Home.DeleteHomeMoney)) return false;
         return this.deleteHome_(player.xuid, name);
+    }
+
+    getHomeListStringArray(xuid: string): Array<string> {
+        const r: Array<string> = [];
+        const h = leveldb.getHome();
+        if (!hasOwnProperty_(h, xuid)) return null;
+        const homeKey = Object.keys(h[xuid]);
+        if (homeKey.length === 0) return null;
+        homeKey.forEach((i) => {
+            r.push(`名称: ${i} | ${formatVec3ToString(h[xuid][i])}`);
+        });
+        return r;
     }
 }
 
