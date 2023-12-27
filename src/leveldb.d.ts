@@ -14,7 +14,7 @@ interface dataDate {
 }
 
 interface home_Structure {
-    [xuid: string]: {
+    [realName: string]: {
         [home_name: string]: Vec3 & dataDate;
     };
 }
@@ -28,7 +28,7 @@ interface warp_Structure {
 }
 
 interface death_Structure {
-    [xuid: string]: [
+    [realName: string]: [
         Vec3 & {
             /** 死亡时间 */
             time: string;
@@ -40,8 +40,6 @@ interface pr_Structure {
     [guid: string]: {
         /** 玩家真名 */
         playerName: string;
-        /** 玩家xuid */
-        playerXUID: string;
         /** 创建时间 */
         time: string;
         /** 家数据 */
@@ -52,7 +50,7 @@ interface pr_Structure {
 }
 
 interface rule_Structure {
-    [xuid: string]: {
+    [realName: string]: {
         [rule: string]: any;
     };
 }

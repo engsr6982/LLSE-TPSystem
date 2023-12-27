@@ -17,7 +17,7 @@ const call: {
         if (ori.type !== 7) return out.error("请在控制台执行此命令!");
         switch (result.leveldb) {
             case "import":
-                leveldb.importOldData() ? logger.info(`导入成功！`) : logger.error(`导入失败！`);
+                leveldb.importOldData(result.isOldData) ? logger.info(`导入成功！`) : logger.error(`导入失败！`);
                 break;
             case "export":
                 leveldb.exportLevelDB() ? logger.info(`导出成功！`) : logger.error(`导出失败！`);
@@ -55,7 +55,7 @@ const call: {
         const { player } = ori;
         switch (result.home) {
             case "list":
-                const list = homeInst.getHomeListStringArray(player.xuid);
+                const list = homeInst.getHomeListStringArray(player.realName);
                 if (list === null) return out.error(`你还没有家园传送点!`);
                 list.forEach((i) => {
                     out.success(i);

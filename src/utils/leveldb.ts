@@ -1,3 +1,4 @@
+import { time } from "../../../LLSE-Modules/src/Time.js";
 import { pluginFloder } from "./globalVars.js";
 
 const leveldb_Inst = new KVDatabase(pluginFloder.leveldb);
@@ -60,11 +61,29 @@ export class leveldb {
     }
 
     // command
-    static importOldData(): boolean {
+    static importOldData(isOld: boolean = true): boolean {
+        if (isOld) {
+        } else {
+            const filePath = pluginFloder.import_ + `imp.json`;
+            if (!file.exists(filePath)) {
+                logger.warn(`找不到导入文件<imp.json> 请将要导入的文件重命名为 imp.json`);
+                logger.error(`无法导入不存在的文件：${filePath}`);
+                return false;
+            }
+            const obj = JSON.parse(file.readFrom(filePath));
+        }
         return true;
     }
 
     static exportLevelDB(): boolean {
+        const key = leveldb_Inst.listKey();
+        const cache: any = {};
+        key.forEach((i) => {
+            cache[i] = leveldb_Inst.get(i);
+        });
+        const filePath = pluginFloder.export_ + `${time.formatDateToString(new Date()).replace(/:/g, "-")}.json`;
+        file.writeTo(filePath, JSON.stringify(cache, null, 2));
+        logger.info(`输出文件到：${filePath}`);
         return true;
     }
 }
