@@ -7,4 +7,6 @@ interface commandResult {
     name?: string;
     key?: string;
     key2?: string;
+    key_m?: string;
+    isOldData: boolean;
 }

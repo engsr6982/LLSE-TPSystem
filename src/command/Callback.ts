@@ -2,6 +2,7 @@ import { homeInst } from "../home/homeCore.js";
 import { TPAEntrance } from "../tpa/form/TPAEntrance.js";
 import { TPRForm } from "../tpr/TPRForm.js";
 import { dataFile } from "../utils/data.js";
+import { leveldb } from "../utils/leveldb.js";
 import { hasOwnProperty_ } from "../utils/util.js";
 
 const sendPlayersUse = (out: CommandOutput) => {
@@ -13,21 +14,48 @@ const call: {
     [key: string]: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => void;
 } = {
     leveldb: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
+        if (ori.type !== 7) return out.error("请在控制台执行此命令!");
         switch (result.leveldb) {
             case "import":
+                leveldb.importOldData() ? logger.info(`导入成功！`) : logger.error(`导入失败！`);
+                break;
             case "export":
+                leveldb.exportLevelDB() ? logger.info(`导出成功！`) : logger.error(`导出失败！`);
+                break;
             case "list":
+                {
+                    const level = leveldb.getLevelDB();
+                    if (result["key"] != null) {
+                        return logger.info(level.get(result.key)); // key
+                    }
+                    if (result["key"] != null && result["key2"] != null) {
+                        return logger.info(level.get(result.key)[result.key2]); // key key2
+                    }
+                    logger.info(`${level.listKey().join(" | ")}`); // all key
+                }
+                break;
             case "del":
+                {
+                    const level = leveldb.getLevelDB();
+                    if (result["key2"] != null) {
+                        const t = level.get(result.key_m);
+                        delete t[result.key2];
+                        level.set(result.key_m, t);
+                        return logger.info(`删除数据 ${result.key_m}.${result.key2} 成功`);
+                    }
+                    level.delete(result.key_m);
+                    leveldb.initLevelDB(); // 防止把根删除
+                    logger.info(`删除数据 ${result.key_m} 成功！`);
+                }
+                break;
         }
     },
-    // eslint-disable-next-line prettier/prettier
-    "home": (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
+    home: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
         if (!ori.player) return sendPlayersUse(out);
         const { player } = ori;
         switch (result.home) {
             case "list":
                 const list = homeInst.getHomeListStringArray(player.xuid);
-                log(list);
                 if (list === null) return out.error(`你还没有家园传送点!`);
                 list.forEach((i) => {
                     out.success(i);

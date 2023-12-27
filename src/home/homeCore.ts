@@ -56,7 +56,7 @@ class homeCore {
     creatHome(player: Player, name: string): boolean {
         if (!money_.deductPlayerMoney(player, config.Home.CreatHomeMoney)) return false; // 检查经济
         const { xuid } = player;
-        if (Object.keys(leveldb.getHome()[xuid]).length >= config.Home.MaxHome) {
+        if (Object.keys(leveldb.getHome()[xuid] || {}).length >= config.Home.MaxHome) {
             return sendMessageToPlayer(player, `创建家园传送点[${name}失败！\n最大家园数量：${config.Home.MaxHome}]`);
         }
         return this.addHome_(xuid, name, convertPosToVec3(player.blockPos));

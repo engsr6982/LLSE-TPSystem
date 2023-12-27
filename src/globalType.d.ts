@@ -11,7 +11,7 @@ interface ConfigType {
         Describe: string;
     };
     Money: {
-        Enable: true;
+        Enable: boolean;
         /** 经济类型 */
         MoneyType: "llmoney" | "score";
         /** 计分板经济名称 */

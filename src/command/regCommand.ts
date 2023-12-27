@@ -84,7 +84,8 @@ export function regCommand(): boolean {
         // tps leveldb import
         cmd.setEnum("import", ["import"]);
         cmd.mandatory("leveldb", ParamType.Enum, "import");
-        cmd.overload(["leveldb", "import"]);
+        cmd.optional("isOldData", ParamType.Bool);
+        cmd.overload(["leveldb", "import", "isOldData"]);
 
         // tps leveldb export
         cmd.setEnum("export", ["export"]);

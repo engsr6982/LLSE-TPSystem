@@ -6,7 +6,7 @@ const __config__: ConfigType = {
         Describe: "TPSystem Command",
     },
     Money: {
-        Enable: true,
+        Enable: false,
         MoneyType: "llmoney",
         ScoreType: "",
         MoneyName: "金币",

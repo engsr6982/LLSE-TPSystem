@@ -58,4 +58,13 @@ export class leveldb {
         });
         return true;
     }
+
+    // command
+    static importOldData(): boolean {
+        return true;
+    }
+
+    static exportLevelDB(): boolean {
+        return true;
+    }
 }
