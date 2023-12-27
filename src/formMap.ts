@@ -10,7 +10,7 @@ export const formMap = {
         fm.setContent("· 选择一个操作");
         // Build the form
         formJSON.forEach((i) => {
-            fm.addButton(i.name || "", i.image || "");
+            fm.addButton(i.name || "", i.image || undefined);
         });
         // send
         player.sendForm(fm, (pl, id: number | null | undefined) => {

@@ -105,4 +105,4 @@ class HomeCore {
     }
 }
 
-export const home = new HomeCore();
+export const homeCore_ = new HomeCore();

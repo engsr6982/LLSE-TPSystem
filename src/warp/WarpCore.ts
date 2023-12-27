@@ -2,4 +2,4 @@ class WarpCore {
     constructor() {}
 }
 
-export const warp = new WarpCore();
+export const warpCore_ = new WarpCore();
