@@ -1,7 +1,8 @@
+import { formMap } from "../formMap.js";
 import { homeInst } from "../home/homeCore.js";
 import { TPAEntrance } from "../tpa/form/TPAEntrance.js";
 import { TPRForm } from "../tpr/TPRForm.js";
-import { dataFile } from "../utils/data.js";
+import { dataFile, formJSON } from "../utils/data.js";
 import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
 import { hasOwnProperty_ } from "../utils/util.js";
@@ -72,6 +73,7 @@ const call: {
         }
     },
     warp: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
+        if (!ori.player) return sendPlayersUse(out);
         switch (result.warp) {
             case "list":
             case "go":
@@ -103,6 +105,7 @@ export function commandCallback(_: Command, ori: CommandOrigin, out: CommandOutp
     // other
     switch (result.action) {
         case "reload":
+            if (ori.type !== 7) return out.error("请在控制台执行此命令!");
             dataFile.initData() ? logger.info("成功") : logger.error("重载失败");
             break;
         case "death":
@@ -114,9 +117,10 @@ export function commandCallback(_: Command, ori: CommandOrigin, out: CommandOutp
         case "back":
             break;
         case "tpr":
-            TPRForm(ori.player);
+            ori.player ? TPRForm(ori.player) : sendPlayersUse(out);
             break;
         case "menu":
+            ori.player ? formMap["main"](ori.player, formJSON) : sendPlayersUse(out);
             break;
         case "mgr":
             break;

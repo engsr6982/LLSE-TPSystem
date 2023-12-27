@@ -5,7 +5,7 @@ export const formMap = {
     tpa: TPAEntrance,
     // 主入口表单
     main: (player: Player, formJSON: Array<formJSON_Item>) => {
-        const fm = new SimpleForm();
+        const fm = mc.newSimpleForm();
         fm.setTitle(pluginInformation.introduce);
         fm.setContent("· 选择一个操作");
         // Build the form
