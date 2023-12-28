@@ -1,7 +1,7 @@
-import { time } from "../../../LLSE-Modules/src/Time";
-import { config } from "../utils/data";
-import { leveldb } from "../utils/leveldb";
-import { convertVec3ToPos, hasOwnProperty_, money_ } from "../utils/util";
+import { time } from "../../../LLSE-Modules/src/Time.js";
+import { config } from "../utils/data.js";
+import { leveldb } from "../utils/leveldb.js";
+import { convertVec3ToPos, hasOwnProperty_, money_ } from "../utils/util.js";
 
 class WarpCore {
     constructor() {}
