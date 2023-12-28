@@ -98,7 +98,7 @@ class HomeCore {
         return this.deleteHome_(player.realName, name);
     }
 
-    getHomeListStringArray(realName: string): string {
+    getHomeListString(realName: string): string {
         const h = leveldb.getHome();
         if (!hasOwnProperty_(h, realName)) return null;
         return Object.keys(h[realName]).join(" | ");

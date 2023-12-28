@@ -27,7 +27,7 @@ const __config__: ConfigType = {
     },
     Warp: {
         Enable: true,
-        OpenWarp: true,
+        // OpenWarp: true,
         GoWarpMoney: 0,
     },
     Death: {

@@ -35,7 +35,7 @@ interface ConfigType {
     };
     Warp: {
         Enable: boolean;
-        OpenWarp: boolean; // 是否开放给玩家
+        // OpenWarp: boolean; // 是否开放给玩家
         GoWarpMoney: number;
     };
     Death: {

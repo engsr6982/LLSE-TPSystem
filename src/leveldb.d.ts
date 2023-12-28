@@ -20,11 +20,7 @@ interface home_Structure {
 }
 
 interface warp_Structure {
-    [warp_name: string]: Vec3 &
-        dataDate & {
-            /** 来源 */
-            source: string;
-        };
+    [warp_name: string]: Vec3 & dataDate;
 }
 
 interface death_Structure {

@@ -5,7 +5,8 @@ import { TPRForm } from "../tpr/TPRForm.js";
 import { dataFile, formJSON } from "../utils/data.js";
 import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
-import { hasOwnProperty_ } from "../utils/util.js";
+import { convertPosToVec3, hasOwnProperty_ } from "../utils/util.js";
+import { warpCore_ } from "../warp/WarpCore.js";
 
 const sendPlayersUse = (out: CommandOutput) => {
     return out.error("此功能仅限玩家使用!");
@@ -57,7 +58,7 @@ const call: {
         const { player } = ori;
         switch (result.home) {
             case "list":
-                const list = homeCore_.getHomeListStringArray(player.realName);
+                const list = homeCore_.getHomeListString(player.realName);
                 if (list === null) return out.error(`你还没有家园传送点!`);
                 out.success(`${tellTitle}家园: ${list}`);
                 break;
@@ -74,11 +75,20 @@ const call: {
     },
     warp: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
         if (!ori.player) return sendPlayersUse(out);
+        const { player } = ori;
         switch (result.warp) {
             case "list":
+                out.success(tellTitle + `${warpCore_.getWarpListString()}`);
+                break;
             case "go":
+                warpCore_.goWarp(player, result.name);
+                break;
             case "add":
+                warpCore_.addWarp_(result.name, convertPosToVec3(player.blockPos));
+                break;
             case "del":
+                warpCore_.deleteWarp_(result.name);
+                break;
         }
     },
     tpa: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
