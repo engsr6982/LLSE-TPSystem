@@ -6,7 +6,6 @@
     "../LLSE-Modules/src/Permission/tab.d.ts"
   ],
   "compilerOptions": {
-    "outDir": "./build",
-    "noImplicitAny": true // 禁止隐式Any
+    "outDir": "./build"
   }
 }
