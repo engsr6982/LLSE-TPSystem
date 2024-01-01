@@ -43,11 +43,11 @@ interface ConfigType {
         sendGoDeathGUI: boolean; // 死亡后发送弹窗
         GoDeathMoney: number;
         MaxDeath: number; // 最大记录数量
-        InvincibleTime: {
-            // 无敌时间配置
-            unit: "second" | "minute";
-            time: number;
-        };
+        // InvincibleTime: {
+        //     // 无敌时间配置
+        //     unit: "second" | "minute";
+        //     time: number;
+        // };
     };
     Tpr: {
         Enable: boolean;
@@ -76,11 +76,13 @@ interface ConfigType {
         SendRequestMoney: number; // 发送请求
         DeleteRequestMoney: number; // 删除请求
     };
-    Rule: {
-        DeathPopup: boolean; // 死亡弹窗
-        allowTpa: boolean; // 允许对我发送Tpa请求
-        tpaPopup: boolean; // Tpa弹窗
-    };
+    Rule: ruleItem;
+}
+
+interface ruleItem {
+    DeathPopup: boolean;
+    allowTpa: boolean;
+    tpaPopup: boolean;
 }
 
 interface Vec3 {
@@ -89,4 +91,55 @@ interface Vec3 {
     z: number;
     /** 主世界|地狱|末地 */
     dimid: 0 | 1 | 2;
+}
+
+// ==================================== LevelDB
+
+interface dataDate {
+    /** 创建日期 */
+    createdTime: string;
+    /** 修改日期 */
+    modifiedTime: string;
+}
+
+interface homeStructure {
+    [realName: string]: {
+        [home_name: string]: Vec3 & dataDate;
+    };
+}
+
+interface warpStructure {
+    [warp_name: string]: Vec3 & dataDate;
+}
+
+interface deathStructure {
+    [realName: string]: Array<
+        Vec3 & {
+            /** 死亡时间 */
+            time: string;
+        }
+    >;
+}
+
+interface prStructureItem {
+    guid: string;
+    playerName: string;
+    time: string;
+    data: Vec3 & {
+        name: string;
+    };
+}
+
+type prStructure = Array<prStructureItem>;
+
+interface ruleStructure {
+    [realName: string]: ruleItem;
+}
+
+interface _leveldbType {
+    homeStructure: homeStructure;
+    warpStructure: warpStructure;
+    deathStructure: deathStructure;
+    prStructure: prStructure;
+    ruleStructure: ruleStructure;
 }

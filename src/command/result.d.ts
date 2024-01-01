@@ -8,5 +8,6 @@ interface commandResult {
     key?: string;
     key2?: string;
     key_m?: string;
-    isOldData: boolean;
+    isOldData?: boolean;
+    player?: Array<Player>;
 }

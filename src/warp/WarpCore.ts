@@ -1,7 +1,9 @@
 import { time } from "../../../LLSE-Modules/src/Time.js";
+import { permCoreInstance } from "../include/permission.js";
 import { config } from "../utils/data.js";
 import { leveldb } from "../utils/leveldb.js";
-import { convertVec3ToPos, hasOwnProperty_, money_ } from "../utils/util.js";
+import { convertVec3ToPos, hasOwnProperty_ } from "../utils/util.js";
+import { money_Instance } from "../include/money.js";
 
 class WarpCore {
     constructor() {}
@@ -9,8 +11,7 @@ class WarpCore {
     addWarp_(name: string, vec3: Vec3) {
         const w = leveldb.getWarp();
         if (hasOwnProperty_(w, name)) return false;
-        const { x, y, z, dimid } = vec3;
-        w[name] = { x: x, y: y, z: z, dimid: dimid, createdTime: time.formatDateToString(new Date()), modifiedTime: "" };
+        w[name] = { ...vec3, createdTime: time.formatDateToString(new Date()), modifiedTime: "" };
         return leveldb.setWarp(w);
     }
 
@@ -39,7 +40,7 @@ class WarpCore {
     }
 
     goWarp(player: Player, name: string) {
-        if (!money_.deductPlayerMoney(player, config.Warp.GoWarpMoney)) return false;
+        if (!money_Instance.deductPlayerMoney(player, config.Warp.GoWarpMoney)) return false;
         const w = leveldb.getWarp();
         if (!hasOwnProperty_(w, name)) return false;
         return player.teleport(convertVec3ToPos(w[name]));
@@ -51,4 +52,8 @@ class WarpCore {
     }
 }
 
-export const warpCore_ = new WarpCore();
+// 注册权限
+permCoreInstance.registerPermission("允许玩家添加Warp", "addWarp");
+permCoreInstance.registerPermission("允许玩家删除Warp", "delWarp");
+
+export const warpCore_Instance = new WarpCore();

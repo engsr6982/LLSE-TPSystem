@@ -1,5 +1,5 @@
 import { config } from "../../utils/data.js";
-import { money_ } from "../../utils/util.js";
+import { money_Instance } from "../../include/money.js";
 import { TPAAskForm } from "../form/TPAAskForm.js";
 
 /**
@@ -13,9 +13,9 @@ export class TPARequest {
     /**请求种类 */
     type: string;
     /**请求发生时间 */
-    private time: Date;
+    time: Date;
     /**请求有效期 */
-    private lifespan: number;
+    lifespan: number;
 
     /**
      *
@@ -80,7 +80,7 @@ export class TPARequest {
             }
         }
         //扣钱
-        money_.deductPlayerMoney(this.sender, config.Tpa.Money);
+        money_Instance.deductPlayerMoney(this.sender, config.Tpa.Money);
         this.sender.tell(this.reciever.name + "接受了您的" + this.type + "请求");
     }
 
@@ -102,7 +102,7 @@ export class TPARequest {
         if (this.reciever == null) {
             return Available.RecieverOffline;
         }
-        if (money_.getPlayeyMoney(this.sender) < config.Tpa.Money && config.Tpa.Money != 0) {
+        if (money_Instance.getPlayeyMoney(this.sender) < config.Tpa.Money && config.Tpa.Money != 0) {
             return Available.Unaffordable;
         }
         return Available.Available;

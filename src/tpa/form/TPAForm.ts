@@ -2,7 +2,7 @@ import { OnlinePlayers } from "../core/OnlinePlayers.js";
 import { SimpleFormWithPlayer } from "../SimpleFormWithPlayer.js";
 import { TPARequest, Available, AvailDescription } from "../core/TpaRequest.js";
 import { config } from "../../utils/data.js";
-import { TPARequestSendEvent } from "../../utils/event.js";
+import { TPARequestSendEvent } from "../../modules/ListenerEvent.js";
 
 /**
  * TPA表单，只发起tpa，不负责tpa过程

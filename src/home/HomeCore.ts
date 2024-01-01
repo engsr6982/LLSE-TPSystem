@@ -1,5 +1,6 @@
 import { leveldb } from "../utils/leveldb.js";
-import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, money_, sendMessageToPlayer } from "../utils/util.js";
+import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, sendMessageToPlayer } from "../utils/util.js";
+import { money_Instance } from "../include/money.js";
 import { time } from "../../../LLSE-Modules/src/Time.js";
 import { config } from "../utils/data.js";
 
@@ -16,12 +17,8 @@ class HomeCore {
             home[realName] = {};
         }
         if (hasOwnProperty_(home[realName], name)) return false; // 防止家名称重复（防重复创建
-        const { x, y, z, dimid } = vec3;
         home[realName][name] = {
-            x: x,
-            y: y,
-            z: z,
-            dimid: dimid,
+            ...vec3,
             createdTime: time.formatDateToString(new Date()),
             modifiedTime: "",
         };
@@ -55,7 +52,7 @@ class HomeCore {
     // 以下方法供玩家调用
 
     creatHome(player: Player, name: string): boolean {
-        if (!money_.deductPlayerMoney(player, config.Home.CreatHomeMoney)) return false; // 检查经济
+        if (!money_Instance.deductPlayerMoney(player, config.Home.CreatHomeMoney)) return false; // 检查经济
         const { realName } = player;
         if (Object.keys(leveldb.getHome()[realName] || {}).length >= config.Home.MaxHome) {
             return sendMessageToPlayer(player, `创建家园传送点[${name}失败！\n最大家园数量：${config.Home.MaxHome}]`);
@@ -64,14 +61,14 @@ class HomeCore {
     }
 
     goHome(player: Player, name: string): boolean {
-        if (!money_.deductPlayerMoney(player, config.Home.GoHomeMoney)) return false;
+        if (!money_Instance.deductPlayerMoney(player, config.Home.GoHomeMoney)) return false;
         const h = leveldb.getHome();
         if (!hasOwnProperty_(h[player.realName], name)) return false;
         return player.teleport(convertVec3ToPos(h[player.realName][name]));
     }
 
     updateName(player: Player, name: string, newName: string) {
-        if (!money_.deductPlayerMoney(player, config.Home.EditNameMoney)) return false;
+        if (!money_Instance.deductPlayerMoney(player, config.Home.EditNameMoney)) return false;
         return this.editHome_(player.realName, name, {
             name: newName,
             x: null,
@@ -82,19 +79,15 @@ class HomeCore {
     }
 
     updatePos(player: Player, name: string) {
-        if (money_.deductPlayerMoney(player, config.Home.EditPosMoney)) return false;
-        const { x, y, z, dimid } = convertPosToVec3(player.blockPos);
+        if (money_Instance.deductPlayerMoney(player, config.Home.EditPosMoney)) return false;
         return this.editHome_(player.realName, name, {
-            x: x,
-            y: y,
-            z: z,
-            dimid: dimid,
+            ...convertPosToVec3(player.blockPos),
             name: name,
         });
     }
 
     deleteHome(player: Player, name: string) {
-        if (!money_.deductPlayerMoney(player, config.Home.DeleteHomeMoney)) return false;
+        if (!money_Instance.deductPlayerMoney(player, config.Home.DeleteHomeMoney)) return false;
         return this.deleteHome_(player.realName, name);
     }
 
@@ -105,4 +98,4 @@ class HomeCore {
     }
 }
 
-export const homeCore_ = new HomeCore();
+export const homeCore_Instance = new HomeCore();

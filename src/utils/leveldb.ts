@@ -5,42 +5,42 @@ const leveldb_Inst = new KVDatabase(pluginFloder.leveldb);
 
 export class leveldb {
     // home
-    static getHome(): home_Structure {
+    static getHome(): homeStructure {
         return leveldb_Inst.get("home");
     }
-    static setHome(newData: home_Structure): boolean {
+    static setHome(newData: homeStructure): boolean {
         return leveldb_Inst.set("home", newData);
     }
 
     // warp
-    static getWarp(): warp_Structure {
+    static getWarp(): warpStructure {
         return leveldb_Inst.get("warp");
     }
-    static setWarp(newData: warp_Structure): boolean {
+    static setWarp(newData: warpStructure): boolean {
         return leveldb_Inst.set("warp", newData);
     }
 
     // death
-    static getDeath(): death_Structure {
+    static getDeath(): deathStructure {
         return leveldb_Inst.get("death");
     }
-    static setDeath(newData: death_Structure): boolean {
+    static setDeath(newData: deathStructure): boolean {
         return leveldb_Inst.set("death", newData);
     }
 
     // pr
-    static getPr(): pr_Structure {
+    static getPr(): prStructure {
         return leveldb_Inst.get("pr");
     }
-    static setPr(newData: pr_Structure): boolean {
+    static setPr(newData: prStructure): boolean {
         return leveldb_Inst.set("pr", newData);
     }
 
     // rule
-    static getRule(): rule_Structure {
+    static getRule(): ruleStructure {
         return leveldb_Inst.get("rule");
     }
-    static setRule(newData: rule_Structure): boolean {
+    static setRule(newData: ruleStructure): boolean {
         return leveldb_Inst.set("rule", newData);
     }
 

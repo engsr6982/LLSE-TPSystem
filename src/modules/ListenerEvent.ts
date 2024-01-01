@@ -1,3 +1,3 @@
-import { Listener } from "../modules/listenAPI.js";
+import { Listener } from "./listenAPI.js";
 
 export const TPARequestSendEvent = new Listener("TPARequestSendEvent");

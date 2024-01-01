@@ -120,15 +120,17 @@ export function regCommand(): boolean {
         cmd.mandatory("tpa", ParamType.Enum, "accept");
         cmd.overload(["tpa", "accept"]);
 
-        // tps tpa to <name: string>
+        cmd.mandatory("player", ParamType.Player);
+
+        // tps tpa to <player>
         cmd.setEnum("to", ["to"]);
         cmd.mandatory("tpa", ParamType.Enum, "to");
-        cmd.overload(["tpa", "to", "name"]);
+        cmd.overload(["tpa", "to", "player"]);
 
-        // tps tpa here <name: string>
+        // tps tpa here <player>
         cmd.setEnum("here", ["here"]);
         cmd.mandatory("tpa", ParamType.Enum, "here");
-        cmd.overload(["tpa", "here", "name"]);
+        cmd.overload(["tpa", "here", "player"]);
 
         // ======================================================================== 其他
 

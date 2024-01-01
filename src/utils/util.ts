@@ -1,12 +1,5 @@
-import moneys from "../../../LLSE-Modules/src/moneys.js";
 import { config } from "./data.js";
 import { tellTitle } from "./globalVars.js";
-
-// @ts-ignore
-export let money_: moneys = undefined;
-export const initMoneyModule = () => {
-    money_ = new moneys(config.Money);
-};
 
 export const formatPrintingError = (err: Error) => {
     logger.error(`The plugin captures an error: \n${err}\n${err.stack}`);
@@ -60,4 +53,8 @@ export const convertVec3ToPos = (vec3: Vec3) => {
         return new FloatPos(x, y, z, dimid);
     }
     return new IntPos(x, y, z, dimid);
+};
+
+export const getRegCommand = () => {
+    return config.Command.Command;
 };

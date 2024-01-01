@@ -35,10 +35,10 @@ const __config__: ConfigType = {
         sendGoDeathGUI: true,
         GoDeathMoney: 0,
         MaxDeath: 0,
-        InvincibleTime: {
-            unit: "second",
-            time: 0,
-        },
+        // InvincibleTime: {
+        //     unit: "second",
+        //     time: 0,
+        // },
     },
     Tpr: {
         Enable: true,
@@ -112,7 +112,7 @@ const __formJson__: Array<formJSON_Item> = [
     },
 ];
 
-export let config: ConfigType;
+export let config: ConfigType = __config__;
 
 export let formJSON: Array<formJSON_Item>;
 

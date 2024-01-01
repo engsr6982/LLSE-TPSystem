@@ -1,6 +1,7 @@
 import { config } from "../utils/data.js";
 import { pluginInformation } from "../utils/globalVars.js";
-import { money_, sendCloseFormTip, sendMessageToPlayer } from "../utils/util.js";
+import { sendCloseFormTip, sendMessageToPlayer } from "../utils/util.js";
+import { money_Instance } from "../include/money.js";
 import { TPR_Core } from "./TPR_Core.js";
 
 /**随机传送-表单 */
@@ -10,7 +11,7 @@ export function TPRForm(player: Player) {
     // 发送表单确认一下
     player.sendModalForm(
         pluginInformation.introduce,
-        `确认执行此操作？\n${money_.getPlayerMoneyStr(player, config.Tpr.Money)}`,
+        `确认执行此操作？\n${money_Instance.getPlayerMoneyStr(player, config.Tpr.Money)}`,
         "确认",
         "返回",
         (pl, res) => {

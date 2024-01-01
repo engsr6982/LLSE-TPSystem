@@ -1,5 +1,6 @@
 import { config } from "../utils/data.js";
-import { formatPrintingError, money_, sendMessageToPlayer } from "../utils/util.js";
+import { formatPrintingError, sendMessageToPlayer } from "../utils/util.js";
+import { money_Instance } from "../include/money.js";
 import { RandomCoordinates } from "./randomCoordinates.js";
 
 /**
@@ -27,7 +28,7 @@ export function TPR_Core(player: Player) {
             return;
         }
 
-        if (!money_.deductPlayerMoney(player, config.Tpr.Money)) return;
+        if (!money_Instance.deductPlayerMoney(player, config.Tpr.Money)) return;
 
         // 开始准备传送所需参数
         sendMessageToPlayer(player, "准备传送...");
@@ -133,7 +134,7 @@ export function TPR_Core(player: Player) {
             formatPrintingError(e);
             player.teleport(BackUpPos);
             sendMessageToPlayer(player, "§c插件遇到未知错误, 传送失败！");
-            money_.addPlayerMoney(player, config.Tpr.Money);
+            money_Instance.addPlayerMoney(player, config.Tpr.Money);
         } else {
             logger.warn("Players quit the game and TPR failed.");
         }

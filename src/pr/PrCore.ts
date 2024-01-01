@@ -1,3 +1,41 @@
-class PrCore {}
+import { time } from "../../../LLSE-Modules/src/Time.js";
+import { leveldb } from "../utils/leveldb.js";
+import { warpCore_Instance } from "../warp/WarpCore.js";
 
-export const prCore_ = new PrCore();
+class PrCore {
+    constructor() {}
+
+    addPR(pr: prStructureItem) {
+        const p = leveldb.getPr();
+        p.unshift(pr);
+        return leveldb.setPr(p);
+    }
+    deletePr(guid: string) {
+        const p = leveldb.getPr();
+        const index = p.findIndex((i) => i.guid === guid);
+        if (index === -1) return false;
+        p.splice(index, 1);
+        return leveldb.setPr(p);
+    }
+    acceptPr(guid: string) {
+        const allPr = leveldb.getPr();
+        const index = allPr.findIndex((i) => i.guid === guid);
+        if (index === -1) return false;
+        const element = allPr[index];
+        warpCore_Instance.addWarp_(element.data.name, element.data); // add warp
+        allPr.splice(index, 1);
+        return leveldb.setPr(allPr);
+    }
+
+    createPr(realName: string, dt: Vec3 & { name: string }) {
+        const p: prStructureItem = {
+            data: dt,
+            playerName: realName,
+            time: time.formatDateToString(new Date()),
+            guid: system.randomGuid(),
+        };
+        return this.addPR(p);
+    }
+}
+
+export const prCore_Instance = new PrCore();
