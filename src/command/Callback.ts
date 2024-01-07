@@ -9,7 +9,7 @@ import { TPRForm } from "../tpr/TPRForm.js";
 import { config, dataFile, formJSON } from "../utils/data.js";
 import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
-import { convertPosToVec3, hasOwnProperty_, sendMessageToPlayer } from "../utils/util.js";
+import { convertPosToVec3, hasOwnProperty_, sendMessage } from "../utils/util.js";
 import { warpCore_Instance } from "../warp/WarpCore.js";
 import { warpForm_Instance } from "../warp/WarpForm.js";
 import { prForm_Instance } from "../pr/PrForm.js";
@@ -63,7 +63,7 @@ const call: {
     home: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
         if (!ori.player) return sendPlayersUse(out);
         const { player } = ori;
-        if (!config.Home.Enable) return sendMessageToPlayer(player, "此功能已关闭!");
+        if (!config.Home.Enable) return sendMessage(player, "此功能已关闭!");
         switch (result.home) {
             case "list":
                 const list = homeCore_Instance.getHomeListString(player.realName);
@@ -86,7 +86,7 @@ const call: {
     warp: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
         if (!ori.player) return sendPlayersUse(out);
         const { player } = ori;
-        if (!config.Warp.Enable) return sendMessageToPlayer(player, "此功能已关闭!");
+        if (!config.Warp.Enable) return sendMessage(player, "此功能已关闭!");
         switch (result.warp) {
             case "list":
                 const w = warpCore_Instance.getWarpListString() || "当前还没有任何公共传送点！";
@@ -112,7 +112,7 @@ const call: {
     tpa: (_: Command, ori: CommandOrigin, out: CommandOutput, result: commandResult) => {
         if (!ori.player) return sendPlayersUse(out);
         const { player } = ori;
-        if (!config.Tpa.Enable) return sendMessageToPlayer(player, "此功能已关闭!");
+        if (!config.Tpa.Enable) return sendMessage(player, "此功能已关闭!");
         // log(result.player.map((i) => String(i)));
         switch (result.tpa) {
             case "accept":

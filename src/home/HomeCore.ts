@@ -1,5 +1,5 @@
 import { leveldb } from "../utils/leveldb.js";
-import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, sendMessageToPlayer } from "../utils/util.js";
+import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, sendMessage } from "../utils/util.js";
 import { money_Instance } from "../include/money.js";
 import { time } from "../../../LLSE-Modules/src/Time.js";
 import { config } from "../utils/data.js";
@@ -9,7 +9,7 @@ class HomeCore {
 
     // 以下方法仅限管理Gui调用
 
-    private addHome_(realName: string, name: string, vec3: Vec3): boolean {
+    _addHome(realName: string, name: string, vec3: Vec3): boolean {
         logger.warn(vec3);
         const home = leveldb.getHome();
         if (!hasOwnProperty_(home, realName)) {
@@ -25,14 +25,14 @@ class HomeCore {
         return leveldb.setHome(home);
     }
 
-    private deleteHome_(realName: string, name: string): boolean {
+    _deleteHome(realName: string, name: string): boolean {
         const home = leveldb.getHome();
         if (!hasOwnProperty_(home, realName)) return false; // no home
         delete home[realName][name];
         return leveldb.setHome(home);
     }
 
-    private editHome_(realName: string, name: string, newData: Vec3 & { name: string }): boolean {
+    _editHome(realName: string, name: string, newData: Vec3 & { name: string }): boolean {
         const h = leveldb.getHome();
         if (!hasOwnProperty_(h, realName) || !hasOwnProperty_(h[realName], name)) return false;
         // rename key
@@ -55,9 +55,9 @@ class HomeCore {
         if (!money_Instance.deductPlayerMoney(player, config.Home.CreatHomeMoney)) return false; // 检查经济
         const { realName } = player;
         if (Object.keys(leveldb.getHome()[realName] || {}).length >= config.Home.MaxHome) {
-            return sendMessageToPlayer(player, `创建家园传送点[${name}失败！\n最大家园数量：${config.Home.MaxHome}]`);
+            return sendMessage(player, `创建家园传送点[${name}失败！\n最大家园数量：${config.Home.MaxHome}]`);
         }
-        return this.addHome_(realName, name, convertPosToVec3(player.blockPos));
+        return this._addHome(realName, name, convertPosToVec3(player.blockPos));
     }
 
     goHome(player: Player, name: string): boolean {
@@ -69,7 +69,7 @@ class HomeCore {
 
     updateName(player: Player, name: string, newName: string) {
         if (!money_Instance.deductPlayerMoney(player, config.Home.EditNameMoney)) return false;
-        return this.editHome_(player.realName, name, {
+        return this._editHome(player.realName, name, {
             name: newName,
             x: null,
             y: null,
@@ -80,7 +80,7 @@ class HomeCore {
 
     updatePos(player: Player, name: string) {
         if (money_Instance.deductPlayerMoney(player, config.Home.EditPosMoney)) return false;
-        return this.editHome_(player.realName, name, {
+        return this._editHome(player.realName, name, {
             ...convertPosToVec3(player.blockPos),
             name: name,
         });
@@ -88,7 +88,7 @@ class HomeCore {
 
     deleteHome(player: Player, name: string) {
         if (!money_Instance.deductPlayerMoney(player, config.Home.DeleteHomeMoney)) return false;
-        return this.deleteHome_(player.realName, name);
+        return this._deleteHome(player.realName, name);
     }
 
     getHomeListString(realName: string): string {

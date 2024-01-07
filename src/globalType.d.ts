@@ -85,10 +85,13 @@ interface ruleItem {
     tpaPopup: boolean;
 }
 
-interface Vec3 {
+interface Axis {
     x: number;
     y: number;
     z: number;
+}
+
+interface Vec3 extends Axis {
     /** 主世界|地狱|末地 */
     dimid: 0 | 1 | 2;
 }

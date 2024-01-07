@@ -1,13 +1,13 @@
 import { config } from "../utils/data.js";
 import { pluginInformation } from "../utils/globalVars.js";
-import { sendCloseFormTip, sendMessageToPlayer } from "../utils/util.js";
+import { sendCloseFormTip, sendMessage } from "../utils/util.js";
 import { money_Instance } from "../include/money.js";
 import { TPR_Core } from "./TPR_Core.js";
 
 /**随机传送-表单 */
 export function TPRForm(player: Player) {
     // 检查功能状态
-    if (!config.Tpr.Enable) return sendMessageToPlayer(player, "管理员关闭了此功能！");
+    if (!config.Tpr.Enable) return sendMessage(player, "管理员关闭了此功能！");
     // 发送表单确认一下
     player.sendModalForm(
         pluginInformation.introduce,

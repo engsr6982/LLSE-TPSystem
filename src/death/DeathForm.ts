@@ -3,7 +3,7 @@ import { SimpleFormWithPlayer } from "../tpa/SimpleFormWithPlayer.js";
 import { config } from "../utils/data.js";
 import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
-import { formatVec3ToString, hasOwnProperty_, sendCloseFormTip, sendMessageToPlayer } from "../utils/util";
+import { formatVec3ToString, hasOwnProperty_, sendCloseFormTip, sendMessage } from "../utils/util";
 import { money_Instance } from "../include/money.js";
 import { deathCore_Instance } from "./DeathCore.js";
 
@@ -22,11 +22,11 @@ class DeathForm {
     }
 
     sendGoDeath(player: Player) {
-        if (!config.Death.Enable) return sendMessageToPlayer(player, "此功能已关闭！");
+        if (!config.Death.Enable) return sendMessage(player, "此功能已关闭！");
 
         const d = leveldb.getDeath();
-        if (!hasOwnProperty_(d, player.realName)) return sendMessageToPlayer(player, "你还没有死亡点信息！");
-        if (d[player.realName].length === 0) return sendMessageToPlayer(player, "你还没有死亡点信息！");
+        if (!hasOwnProperty_(d, player.realName)) return sendMessage(player, "你还没有死亡点信息！");
+        if (d[player.realName].length === 0) return sendMessage(player, "你还没有死亡点信息！");
 
         const death = d[player.realName][0];
         const md = new ModalForms(
@@ -51,11 +51,11 @@ class DeathForm {
     }
 
     sendQueryDeath(player: Player) {
-        if (!config.Death.Enable) return sendMessageToPlayer(player, "此功能已关闭！");
+        if (!config.Death.Enable) return sendMessage(player, "此功能已关闭！");
 
         const d = leveldb.getDeath();
 
-        if (!hasOwnProperty_(d, player.realName)) return sendMessageToPlayer(player, "你还没有死亡点信息！");
+        if (!hasOwnProperty_(d, player.realName)) return sendMessage(player, "你还没有死亡点信息！");
 
         const fm = new SimpleFormWithPlayer(player, tellTitle, ``);
 

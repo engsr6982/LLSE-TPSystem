@@ -1,4 +1,4 @@
-import { sendMessageToPlayer } from "../../utils/util.js";
+import { sendMessage } from "../../utils/util.js";
 import { SimpleFormWithPlayer } from "../SimpleFormWithPlayer.js";
 import { TPARequestPool } from "../core/TPARequestPool.js";
 import { TPARequest } from "../core/TpaRequest.js";
@@ -37,9 +37,7 @@ export class TPAAskForm extends SimpleFormWithPlayer {
             // }
 
             // 初步实现
-            TPARequestPool.addRequest(request)
-                ? sendMessageToPlayer(this.player, "已缓存本次请求")
-                : sendMessageToPlayer(this.player, "缓存请求失败！");
+            TPARequestPool.addRequest(request) ? sendMessage(this.player, "已缓存本次请求") : sendMessage(this.player, "缓存请求失败！");
         };
 
         super.addButton("缓存本次传送", action, "");

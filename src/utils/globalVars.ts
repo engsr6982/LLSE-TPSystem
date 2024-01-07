@@ -22,4 +22,4 @@ export enum pluginFloder {
 
 export const tellTitle = `§e§l[§d${pluginInformation.name}§e]§r§a `;
 
-export const dimArray = ["主世界", "地狱", "末地"];
+export const dimidArray = ["主世界", "地狱", "末地"];

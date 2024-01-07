@@ -2,7 +2,7 @@ import { permCoreInstance } from "../include/permission.js";
 import { SimpleFormWithPlayer } from "../tpa/SimpleFormWithPlayer.js";
 import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
-import { formatVec3ToString, getRegCommand, sendCloseFormTip, sendMessageToPlayer } from "../utils/util.js";
+import { formatVec3ToString, getRegCommand, sendCloseFormTip, sendMessage } from "../utils/util.js";
 
 class WarpForm {
     constructor() {}
@@ -10,15 +10,13 @@ class WarpForm {
     index(player: Player) {
         const fm = new SimpleFormWithPlayer(player, tellTitle);
         fm.addButton("新建传送点", () => {
-            permCoreInstance.verifyUserPermission(player.xuid, "addWarp") ? this.newWarp(player) : sendMessageToPlayer(player, "无权限!");
+            permCoreInstance.verifyUserPermission(player.xuid, "addWarp") ? this.newWarp(player) : sendMessage(player, "无权限!");
         });
         fm.addButton("前往传送点", () => {
             this.goWarp(player);
         });
         fm.addButton("删除传送点", () => {
-            permCoreInstance.verifyUserPermission(player.xuid, "delWarp")
-                ? this.deleteWarp(player)
-                : sendMessageToPlayer(player, "无权限!");
+            permCoreInstance.verifyUserPermission(player.xuid, "delWarp") ? this.deleteWarp(player) : sendMessage(player, "无权限!");
         });
         fm.addButton("返回", () => {
             player.runcmd(getRegCommand());

@@ -1,7 +1,7 @@
 import { time } from "../../../LLSE-Modules/src/Time.js";
 import { config } from "../utils/data.js";
 import { leveldb } from "../utils/leveldb.js";
-import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, sendMessageToPlayer } from "../utils/util.js";
+import { convertPosToVec3, convertVec3ToPos, hasOwnProperty_, sendMessage } from "../utils/util.js";
 import { money_Instance } from "../include/money.js";
 
 function initListen() {
@@ -41,13 +41,13 @@ class DeathCore {
         const d = leveldb.getDeath();
 
         if (d[player.realName].length === 0) {
-            sendMessageToPlayer(player, "你还没有死亡点信息！");
+            sendMessage(player, "你还没有死亡点信息！");
         }
 
         if (money_Instance.deductPlayerMoney(player, config.Death.GoDeathMoney)) {
             player.teleport(convertVec3ToPos(d[player.realName][index]))
-                ? sendMessageToPlayer(player, "传送成功！")
-                : sendMessageToPlayer(player, "传送失败！");
+                ? sendMessage(player, "传送成功！")
+                : sendMessage(player, "传送失败！");
         }
     }
 }

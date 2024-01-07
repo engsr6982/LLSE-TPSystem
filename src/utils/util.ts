@@ -11,10 +11,10 @@ export const hasOwnProperty_ = (obj: object, key: string): boolean => {
 };
 
 export const sendCloseFormTip = (player: Player) => {
-    return player.tell(`${tellTitle}表单已放弃`);
+    return sendMessage(player, "表单已放弃");
 };
 
-export const sendMessageToPlayer = (player: Player, msg: string): boolean => {
+export const sendMessage = (player: Player, msg: string): boolean => {
     return player.tell(tellTitle + msg);
 };
 
@@ -57,4 +57,18 @@ export const convertVec3ToPos = (vec3: Vec3) => {
 
 export const getRegCommand = () => {
     return config.Command.Command;
+};
+
+export const parseAxis = (axisStr: string): Axis => {
+    const axisArray: Array<string> = axisStr.split(",");
+    return {
+        x: Number(axisArray[0]),
+        y: Number(axisArray[1]),
+        z: Number(axisArray[2]),
+    };
+};
+
+export const stringifyAxis = (axisObj: Axis): string => {
+    const { x, y, z } = axisObj;
+    return `${x},${y},${z}`;
 };
