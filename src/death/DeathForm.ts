@@ -3,7 +3,7 @@ import { SimpleFormWithPlayer } from "../tpa/SimpleFormWithPlayer.js";
 import { config } from "../utils/data.js";
 import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
-import { formatVec3ToString, hasOwnProperty_, sendCloseFormTip, sendMessage } from "../utils/util";
+import { formatVec3ToString, hasOwnProperty_, sendCloseFormTip, sendMessage } from "../utils/util.js";
 import { money_Instance } from "../include/money.js";
 import { deathCore_Instance } from "./DeathCore.js";
 

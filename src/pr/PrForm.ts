@@ -6,7 +6,7 @@ import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
 import { formatVec3ToString, getRegCommand, sendCloseFormTip } from "../utils/util.js";
 import { money_Instance } from "../include/money.js";
-import { prCore_Instance } from "./PrCore";
+import { prCore_Instance } from "./PrCore.js";
 
 class PrForm {
     constructor() {}
