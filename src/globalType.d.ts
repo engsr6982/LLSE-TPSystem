@@ -126,7 +126,7 @@ interface deathStructure {
 
 interface prStructureItem {
     guid: string;
-    playerName: string;
+    playerRealName: string;
     time: string;
     data: Vec3 & {
         name: string;

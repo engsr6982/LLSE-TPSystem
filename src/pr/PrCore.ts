@@ -5,19 +5,19 @@ import { warpCore_Instance } from "../warp/WarpCore.js";
 class PrCore {
     constructor() {}
 
-    addPR(pr: prStructureItem) {
+    _addPR(pr: prStructureItem) {
         const p = leveldb.getPr();
         p.unshift(pr);
         return leveldb.setPr(p);
     }
-    deletePr(guid: string) {
+    _deletePr(guid: string) {
         const p = leveldb.getPr();
         const index = p.findIndex((i) => i.guid === guid);
         if (index === -1) return false;
         p.splice(index, 1);
         return leveldb.setPr(p);
     }
-    acceptPr(guid: string) {
+    _acceptPr(guid: string) {
         const allPr = leveldb.getPr();
         const index = allPr.findIndex((i) => i.guid === guid);
         if (index === -1) return false;
@@ -30,11 +30,11 @@ class PrCore {
     createPr(realName: string, dt: Vec3 & { name: string }) {
         const p: prStructureItem = {
             data: dt,
-            playerName: realName,
+            playerRealName: realName,
             time: time.formatDateToString(new Date()),
             guid: system.randomGuid(),
         };
-        return this.addPR(p);
+        return this._addPR(p);
     }
 }
 

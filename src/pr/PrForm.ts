@@ -56,7 +56,7 @@ class PrForm {
     }
 
     private deletePr(player: Player) {
-        const allPr = leveldb.getPr().filter((i) => i.playerName === player.realName);
+        const allPr = leveldb.getPr().filter((i) => i.playerRealName === player.realName);
         const fm = new SimpleFormWithPlayer(player, tellTitle);
 
         allPr.forEach((p) => {
@@ -69,7 +69,7 @@ class PrForm {
                     )}`,
                 );
                 md.setButton_0_call("确认删除", () => {
-                    prCore_Instance.deletePr(p.guid);
+                    prCore_Instance._deletePr(p.guid);
                 });
                 md.setButton_1_call("取消", () => {
                     player.runcmd(`${getRegCommand()} pr`);
