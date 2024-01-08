@@ -63,6 +63,7 @@ export class leveldb {
     // command
     static importOldData(isOld: boolean = true): boolean {
         if (isOld) {
+            // todo oldData
         } else {
             const filePath = pluginFloder.import_ + `imp.json`;
             if (!file.exists(filePath)) {

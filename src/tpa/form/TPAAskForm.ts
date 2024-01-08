@@ -29,7 +29,7 @@ export class TPAAskForm extends SimpleFormWithPlayer {
             "textures/ui/realms_red_x",
         );
 
-        // todo 玩家按下关闭按钮或发送失败，需将请求加入缓存队列
+        // 玩家按下关闭按钮或发送失败，需将请求加入缓存队列
         const action = () => {
             //目前的版本是只要请求有效就不断的发直到发送成功
             // if (request.available == Available.Available) {

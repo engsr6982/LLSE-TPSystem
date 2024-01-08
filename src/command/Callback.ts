@@ -14,6 +14,7 @@ import { warpCore_Instance } from "../warp/WarpCore.js";
 import { warpForm_Instance } from "../warp/WarpForm.js";
 import { prForm_Instance } from "../pr/PrForm.js";
 import { ManagerEntry } from "../manager/ManagerEntry.js";
+import { playerRuleFormInstance } from "../otherForm/playerRule.js";
 
 const sendPlayersUse = (out: CommandOutput) => {
     return out.error(tellTitle + "此功能仅限玩家使用!");
@@ -152,7 +153,7 @@ export function commandCallback(_: Command, ori: CommandOrigin, out: CommandOutp
             ori.player ? prForm_Instance.index(ori.player) : sendPlayersUse(out);
             break;
         case "rule":
-            // todo OpenGUI
+            ori.player ? playerRuleFormInstance.index(ori.player) : sendPlayersUse(out);
             break;
         case "back":
             ori.player ? deathForm_Instance.sendGoDeath(ori.player) : sendPlayersUse(out);
