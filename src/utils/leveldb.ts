@@ -1,4 +1,5 @@
 import { time } from "../../../LLSE-Modules/src/Time.js";
+import { convertData } from "../convertData/convertData.js";
 import { pluginFloder } from "./globalVars.js";
 
 const leveldb_Inst = new KVDatabase(pluginFloder.leveldb);
@@ -61,27 +62,52 @@ export class leveldb {
     }
 
     // command
-    static importOldData(isOld: boolean = true): boolean {
-        if (isOld) {
-            // todo oldData
-        } else {
-            const filePath = pluginFloder.import_ + `imp.json`;
-            if (!file.exists(filePath)) {
-                logger.warn(`找不到导入文件<imp.json> 请将要导入的文件重命名为 imp.json`);
-                logger.error(`无法导入不存在的文件：${filePath}`);
-                return false;
+    static importDataType(isOld: boolean = true): boolean {
+        return isOld ? this.importOldData() : this.importNewData();
+    }
+
+    private static importOldData() {
+        const generationConversionData = {}; // 待转换数据
+        const oldFileName = ["Home", "Warp", "Death", "PlayerSeting", "MergeRequest"]; // 旧文件名
+
+        for (let i = 0; i < oldFileName.length; i++) {
+            try {
+                const readPath = pluginFloder.import_ + oldFileName[i];
+                // @ts-ignore
+                generationConversionData[oldFileName[i]] = JSON.parse(file.readFrom(readPath));
+                logger.info(`[旧数据转换] 读取解析文件 ${oldFileName[i]} 成功. ${i}/${oldFileName.length}`);
+            } catch (e) {
+                continue;
             }
-            const obj = JSON.parse(file.readFrom(filePath));
-            const k = Object.keys(obj); // 获取key
-
-            logger.warn("为了操作安全，备份数据库...");
-            this.exportLevelDB(); // 备份一下
-
-            k.forEach((i) => {
-                leveldb_Inst.set(i, obj[i]); // 遍历key 写入数据库
-            });
-            return true;
         }
+        // @ts-ignore
+        const convertCompletedData = convertData(generationConversionData); // 调用转换函数
+        const saveFileName = `convertCompletedData_${new Date().getTime()}`; // 确认要保存的文件名
+        logger.info("保存转换完成的数据为 => " + saveFileName);
+        file.writeTo(pluginFloder.import_ + saveFileName, JSON.stringify(convertCompletedData)); // 保存转换完成数据
+        return this.importNewData(saveFileName); // 调用新数据导入函数
+    }
+
+    private static importNewData(fileName?: string) {
+        !fileName ? (fileName = "imp.json") : null; // 确定文件名
+        const filePath = pluginFloder.import_ + fileName; // 确定文件路径
+        // 检查文件
+        if (!file.exists(filePath)) {
+            logger.warn(`找不到导入文件<${fileName}> 请将要导入的文件重命名为 ${fileName}`);
+            logger.error(`无法导入不存在的文件：${filePath}`);
+            return false;
+        }
+        // 解析文件
+        const obj = JSON.parse(file.readFrom(filePath));
+        const k = Object.keys(obj); // 获取key
+        // 备份数据库
+        logger.warn("为了操作安全，备份数据库...");
+        this.exportLevelDB();
+        // 遍历key 写入数据库
+        k.forEach((i) => {
+            leveldb_Inst.set(i, obj[i]);
+        });
+        return true;
     }
 
     static exportLevelDB(): boolean {
