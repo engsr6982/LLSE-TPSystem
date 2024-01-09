@@ -169,6 +169,9 @@ export function regCommand(): boolean {
         cmd.mandatory("action", ParamType.Enum, "mgr");
         cmd.overload(["mgr"]);
 
+        // tps
+        cmd.overload([]);
+
         // 回调
         cmd.setCallback(commandCallback);
         return cmd.setup();

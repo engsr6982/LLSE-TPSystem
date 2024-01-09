@@ -161,11 +161,13 @@ export function commandCallback(_: Command, ori: CommandOrigin, out: CommandOutp
         case "tpr":
             ori.player ? TPRForm(ori.player) : sendPlayersUse(out);
             break;
-        case "menu":
-            ori.player ? menu(ori.player, formJSON) : sendPlayersUse(out);
-            break;
+        // case "menu":
+        //     ori.player ? menu(ori.player, formJSON) : sendPlayersUse(out);
+        //     break;
         case "mgr":
             permCoreInstance.checkIfAdmin(ori.player.xuid) ? ManagerEntry(ori.player) : out.error(tellTitle + "无权限打开控制面板！");
             break;
+        default:
+            ori.player ? menu(ori.player, formJSON) : sendPlayersUse(out);
     }
 }
