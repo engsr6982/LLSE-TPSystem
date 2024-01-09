@@ -23,6 +23,7 @@ interface ConfigType {
         Enable: boolean;
         Money: number;
         CacheExpirationTime: number; // 缓存过期时间 单位:毫秒
+        CacheCheckFrequency: number; // 缓存检查频率 单位:毫秒（小于等于0 则关闭） 异步
     };
     Home: {
         Enable: boolean;

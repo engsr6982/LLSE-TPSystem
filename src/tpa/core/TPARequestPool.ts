@@ -1,4 +1,6 @@
-import { TPARequest } from "./TpaRequest.js";
+import { config } from "../../utils/data.js";
+import { formatPrintingError } from "../../utils/util.js";
+import { AvailDescription, Available, TPARequest } from "./TpaRequest.js";
 
 /**
  * 全局请求池
@@ -21,9 +23,6 @@ export class TPARequestPool {
         }
     }
 
-    /** 基于时间的哈希表，用于存储请求 */
-    private static requestMap: Map<number, TPARequest[]> = new Map();
-
     /**
      * 放入一个请求
      * @param request 要缓存的tpa请求
@@ -31,11 +30,6 @@ export class TPARequestPool {
     static addRequest(request: TPARequest) {
         this.initPlayer(request.reciever.xuid);
         this.requests[request.reciever.xuid][request.sender.xuid] = request;
-        const expireTime = Math.ceil((request.time.getTime() + request.lifespan) / 1000);
-        if (!this.requestMap.has(expireTime)) {
-            this.requestMap.set(expireTime, []);
-        }
-        this.requestMap.get(expireTime).push(request);
         return true;
     }
 
@@ -52,26 +46,29 @@ export class TPARequestPool {
     /**
      * 清理过期或失效的请求
      */
-    static cleanup() {
-        const now = Math.ceil(Date.now() / 1000);
-        for (const [expireTime, requests] of this.requestMap.entries()) {
-            if (expireTime <= now) {
-                for (const request of requests) {
-                    this.deleteRequest(request.sender.xuid, request.reciever.xuid);
+    static cleanup = async () => {
+        try {
+            const thiz = TPARequestPool;
+            // 遍历接收者
+            for (const reciever in thiz.requests) {
+                // 遍历发送者
+                for (const sender in thiz.requests[reciever]) {
+                    const req = thiz.requests[reciever][sender]; // 取出请求实例
+                    // 检查请求
+                    if (req.available != Available.Available) {
+                        if (req.sender != null) {
+                            req.sender.tell(AvailDescription(req.available));
+                        }
+                    }
                 }
-                this.requestMap.delete(expireTime);
-            } else {
-                break;
             }
+            // 开始下一轮检查
+            if (config.Tpa.CacheCheckFrequency <= 0) return;
+            setTimeout(TPARequestPool.cleanup, config.Tpa.CacheCheckFrequency);
+        } catch (e) {
+            formatPrintingError(e);
         }
-    }
-
-    /**
-     * 启动定时器，定期清理过期或失效的请求
-     */
-    static startCleanupInterval() {
-        setInterval(() => this.cleanup(), 1000); // 每秒清理一次
-    }
+    };
 }
 
-TPARequestPool.startCleanupInterval();
+TPARequestPool.cleanup();

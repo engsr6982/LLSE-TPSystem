@@ -15,6 +15,7 @@ const __config__: ConfigType = {
         Enable: true,
         Money: 0,
         CacheExpirationTime: 30000,
+        CacheCheckFrequency: 5000,
     },
     Home: {
         Enable: true,
