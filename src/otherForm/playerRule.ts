@@ -1,9 +1,23 @@
+import { config } from "../utils/data.js";
 import { tellTitle } from "../utils/globalVars.js";
 import { leveldb } from "../utils/leveldb.js";
-import { sendCloseFormTip, sendMessage } from "../utils/util.js";
+import { hasOwnProperty_, sendCloseFormTip, sendMessage } from "../utils/util.js";
 
 class playerRule {
-    constructor() {}
+    constructor() {
+        this.initEvent();
+    }
+
+    private initEvent() {
+        mc.listen("onJoin", (player) => {
+            const r = leveldb.getRule();
+            if (hasOwnProperty_(r, player.realName)) return;
+            r[player.realName] = config.Rule;
+            leveldb.setRule(r);
+            logger.warn(`初始化玩家 ${player.realName} 规则成功!`);
+        });
+        logger.info("玩家进入游戏 事件已注册");
+    }
 
     index(player: Player) {
         const fm = mc.newCustomForm();
