@@ -40,9 +40,9 @@ class HomeForm {
             },
             "",
         );
-        // fm.addButton("返回", () => {
-        //     player.runcmd(getRegCommand());
-        // });
+        fm.addButton("返回", () => {
+            player.runcmd(getRegCommand());
+        });
 
         fm.default = () => {
             sendCloseFormTip(player);

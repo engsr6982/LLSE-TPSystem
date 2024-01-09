@@ -73,3 +73,5 @@ export class TPARequestPool {
         setInterval(() => this.cleanup(), 1000); // 每秒清理一次
     }
 }
+
+TPARequestPool.startCleanupInterval();

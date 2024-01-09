@@ -14,7 +14,7 @@ const __config__: ConfigType = {
     Tpa: {
         Enable: true,
         Money: 0,
-        CacheExpirationTime: 0,
+        CacheExpirationTime: 30000,
     },
     Home: {
         Enable: true,
