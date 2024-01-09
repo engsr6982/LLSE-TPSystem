@@ -28,7 +28,9 @@ class WarpCore {
         // rename key
         if (newData.name !== name) {
             if (hasOwnProperty_(w, newData.name)) return false; // 防新数据名称重复
-            Object.defineProperty(w, newData.name, Object.getOwnPropertyDescriptor(w, name));
+            // Object.defineProperty(w, newData.name, Object.getOwnPropertyDescriptor(w, name));
+            w[newData.name] = w[name];
+            delete w[name];
         }
         // update data
         newData.x !== null ? (w[newData.name].x = newData.x) : null; // 为了兼容更新名称、坐标

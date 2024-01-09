@@ -32,13 +32,15 @@ class HomeCore {
         return leveldb.setHome(home);
     }
 
-    _editHome(realName: string, name: string, newData: Vec3 & { name: string }): boolean {
+    _editHome(realName: string, homeOldName: string, newData: Vec3 & { name: string }): boolean {
         const h = leveldb.getHome();
-        if (!hasOwnProperty_(h, realName) || !hasOwnProperty_(h[realName], name)) return false;
+        if (!hasOwnProperty_(h, realName) || !hasOwnProperty_(h[realName], homeOldName)) return false;
         // rename key
-        if (newData.name !== name) {
+        if (newData.name !== homeOldName) {
             if (hasOwnProperty_(h[realName], newData.name)) return false; // 防新数据名称重复
-            Object.defineProperty(h[realName], newData.name, Object.getOwnPropertyDescriptor(h[realName], name));
+            // Object.defineProperty(h[realName], newData.name, Object.getOwnPropertyDescriptor(h[realName], name));
+            h[realName][newData.name] = h[realName][homeOldName];
+            delete h[realName][homeOldName];
         }
         // update data
         newData.x !== null ? (h[realName][newData.name].x = newData.x) : null; // 为了兼容更新名称、坐标
