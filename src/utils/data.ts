@@ -78,37 +78,37 @@ const __formJson__: Array<formJSON_Item> = [
         name: "家园传送",
         image: "textures/ui/village_hero_effect",
         type: "cmd",
-        open: "tps gui home",
+        open: "tps home",
     },
     {
         name: "公共传送",
         image: "textures/ui/icon_best3",
         type: "cmd",
-        open: "tps gui warp",
+        open: "tps warp",
     },
     {
         name: "玩家传送",
         image: "textures/ui/icon_multiplayer",
         type: "cmd",
-        open: "tps gui tpa",
+        open: "tps tpa",
     },
     {
         name: "死亡传送",
         image: "textures/ui/friend_glyph_desaturated",
         type: "cmd",
-        open: "tps gui death",
+        open: "tps death",
     },
     {
         name: "随机传送",
         image: "textures/ui/mashup_world",
         type: "cmd",
-        open: "tps gui tpr",
+        open: "tps tpr",
     },
     {
         name: "个人设置",
         image: "textures/ui/icon_setting",
         type: "cmd",
-        open: "tps gui setting",
+        open: "tps rule",
     },
 ];
 

@@ -18,9 +18,9 @@ class WarpForm {
         fm.addButton("删除传送点", () => {
             permCoreInstance.verifyUserPermission(player.xuid, "delWarp") ? this.deleteWarp(player) : sendMessage(player, "无权限!");
         });
-        fm.addButton("返回", () => {
-            player.runcmd(getRegCommand());
-        });
+        // fm.addButton("返回", () => {
+        //     player.runcmd(getRegCommand());
+        // });
         fm.default = () => {
             sendCloseFormTip(player);
         };
